@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Theoretical Particle Physics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #f7f7f5;
+      --border: #dedad4;
+      --text: #111111;
+      --muted: #555555;
+      --light: #999999;
+      --accent: #1a3a6b;
+      --accent2: #2d5aa0;
+      --rule: #c8c3bb;
+      --font-serif: 'Libre Baskerville', Georgia, serif;
+      --font-sans: 'Source Sans 3', system-ui, sans-serif;
+      --font-jp: 'Noto Serif JP', serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-serif); font-size: 17px; line-height: 1.8; }
+    body.ja { font-family: var(--font-jp); }
+
+    .wrapper { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+
+    /* Nav */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; height: 52px; }
+    .nav-name { font-family: var(--font-serif); font-size: 0.9rem; font-weight: 700; color: var(--text); }
+    body.ja .nav-name { font-family: var(--font-jp); }
+    .nav-right { display: flex; align-items: center; gap: 2rem; }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a { font-family: var(--font-sans); font-size: 0.82rem; letter-spacing: 0.03em; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--accent); }
+    .lang-toggle { display: flex; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
+    .lang-toggle button { background: transparent; border: none; font-family: var(--font-sans); font-size: 0.74rem; letter-spacing: 0.05em; color: var(--light); padding: 0.24rem 0.6rem; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .lang-toggle button.active { background: var(--accent); color: #fff; }
+
+    /* Header */
+    #hero { padding: 4.5rem 2.5rem 3.5rem; border-bottom: 2px solid var(--text); }
+    .hero-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 170px; gap: 3rem; align-items: end; }
+    .hero-dept { font-family: var(--font-sans); font-size: 0.76rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
+    h1.hero-name { font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 0.9rem; }
+    body.ja h1.hero-name { font-size: clamp(1.7rem, 4vw, 2.8rem); }
+    .hero-title { font-size: 0.98rem; color: var(--muted); font-style: italic; margin-bottom: 0.25rem; }
+    body.ja .hero-title { font-style: normal; }
+    .hero-affil { font-family: var(--font-sans); font-size: 0.88rem; color: var(--accent); font-weight: 600; }
+    .hero-photo { width: 170px; height: 210px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-sans); font-size: 0.72rem; color: var(--light); letter-spacing: 0.04em; }
+    .hero-links { margin-top: 1.6rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .lbtn { display: inline-block; padding: 0.42rem 1.05rem; font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.03em; text-decoration: none; border-radius: 2px; transition: all 0.15s; }
+    .lbtn-primary { background: var(--accent); color: #fff; }
+    .lbtn-primary:hover { background: var(--accent2); }
+    .lbtn-outline { border: 1px solid var(--border); color: var(--muted); }
+    .lbtn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Sections */
+    section { padding: 3.8rem 2.5rem; border-bottom: 1px solid var(--border); }
+    .sec-head { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2.2rem; }
+    h2 { font-size: 1.4rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+    .sec-rule { flex: 1; height: 1px; background: var(--rule); }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 0.96rem; }
+    .info-tbl { width: 100%; border-collapse: collapse; }
+    .info-tbl tr { border-bottom: 1px solid var(--border); }
+    .info-tbl tr:first-child { border-top: 1px solid var(--border); }
+    .info-tbl td { padding: 0.55rem 0; font-size: 0.85rem; vertical-align: top; }
+    .info-tbl td:first-child { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); width: 5.5rem; padding-right: 0.8rem; padding-top: 0.65rem; }
+    .info-tbl td:last-child { color: var(--muted); }
+    .info-tbl a { color: var(--accent); text-decoration: none; }
+    .info-tbl a:hover { text-decoration: underline; }
+
+    /* Research */
+    .research-list { display: flex; flex-direction: column; }
+    .res-item { display: grid; grid-template-columns: 2.5rem 1fr; gap: 0 1.2rem; padding: 1.4rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .res-item:first-child { border-top: 1px solid var(--border); }
+    .res-num { font-family: var(--font-sans); font-size: 0.72rem; color: var(--rule); padding-top: 0.22rem; font-weight: 600; }
+    .res-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.35rem; }
+    .res-desc { font-size: 0.87rem; color: var(--muted); line-height: 1.7; }
+
+    /* Publications */
+    .pub-list { display: flex; flex-direction: column; }
+    .pub-item { display: grid; grid-template-columns: 3.2rem 1fr; gap: 0 1.5rem; padding: 1.4rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .pub-item:first-child { border-top: 1px solid var(--border); }
+    .pub-year { font-family: var(--font-sans); font-size: 0.76rem; font-weight: 600; color: var(--accent); letter-spacing: 0.03em; padding-top: 0.15rem; }
+    .pub-title { font-size: 0.96rem; font-weight: 700; color: var(--text); margin-bottom: 0.22rem; line-height: 1.45; }
+    .pub-authors { font-size: 0.84rem; color: var(--muted); font-style: italic; margin-bottom: 0.22rem; }
+    body.ja .pub-authors { font-style: normal; }
+    .pub-journal { font-family: var(--font-sans); font-size: 0.78rem; color: var(--light); }
+    .pub-links { display: flex; gap: 1rem; margin-top: 0.45rem; }
+    .pub-link { font-family: var(--font-sans); font-size: 0.76rem; font-weight: 600; letter-spacing: 0.03em; color: var(--accent); text-decoration: none; }
+    .pub-link:hover { text-decoration: underline; }
+    .more-link { display: inline-block; margin-top: 1.6rem; font-family: var(--font-sans); font-size: 0.84rem; color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 1px; }
+    .more-link:hover { color: var(--accent2); }
+
+    /* Contact */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-text p { font-size: 0.96rem; color: var(--muted); margin-bottom: 1rem; }
+
+    /* CV timeline */
+    .cv-list { display: flex; flex-direction: column; }
+    .cv-item { display: grid; grid-template-columns: 8rem 1fr; gap: 0 1.5rem; padding: 1.1rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .cv-item:first-child { border-top: 1px solid var(--border); }
+    .cv-period { font-family: var(--font-sans); font-size: 0.76rem; color: var(--accent); font-weight: 600; letter-spacing: 0.02em; padding-top: 0.1rem; }
+    .cv-role { font-size: 0.96rem; font-weight: 700; color: var(--text); margin-bottom: 0.15rem; }
+    .cv-place { font-family: var(--font-sans); font-size: 0.84rem; color: var(--muted); }
+
+    /* Talks */
+    .talk-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 1.8rem; }
+    .talk-tab { font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.03em; color: var(--muted); padding: 0.5rem 1.2rem 0.6rem; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s; background: none; border-top: none; border-left: none; border-right: none; }
+    .talk-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+    .talk-panel { display: none; }
+    .talk-panel.active { display: block; }
+    .talk-list { display: flex; flex-direction: column; }
+    .talk-item { display: grid; grid-template-columns: 3.2rem 1fr; gap: 0 1.5rem; padding: 1.1rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .talk-item:first-child { border-top: 1px solid var(--border); }
+    .talk-year { font-family: var(--font-sans); font-size: 0.76rem; font-weight: 600; color: var(--accent); padding-top: 0.1rem; }
+    .talk-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.15rem; line-height: 1.45; }
+    .talk-meta { font-family: var(--font-sans); font-size: 0.82rem; color: var(--muted); }
+    .talk-venue { font-size: 0.82rem; color: var(--light); font-style: italic; margin-top: 0.1rem; }
+    body.ja .talk-venue { font-style: normal; }
+    .talk-badge { display: inline-block; font-family: var(--font-sans); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 2px; margin-left: 0.5rem; vertical-align: middle; background: #e8eef7; color: var(--accent); }
+
+    /* Awards */
+    .award-list { display: flex; flex-direction: column; }
+    .award-item { display: grid; grid-template-columns: 3.2rem 1fr; gap: 0 1.5rem; padding: 1.2rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .award-item:first-child { border-top: 1px solid var(--border); }
+    .award-year { font-family: var(--font-sans); font-size: 0.76rem; font-weight: 600; color: var(--accent); padding-top: 0.1rem; }
+    .award-name { font-size: 0.96rem; font-weight: 700; color: var(--text); margin-bottom: 0.15rem; }
+    .award-org { font-family: var(--font-sans); font-size: 0.84rem; color: var(--muted); }
+
+    /* Footer */
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 1.8rem 2.5rem; }
+    .foot-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem; }
+    footer p { font-family: var(--font-sans); font-size: 0.76rem; color: var(--light); }
+
+    /* Lang display */
+    [data-en], [data-ja] { display: none; }
+    body:not(.ja) [data-en] { display: revert; }
+    body.ja [data-ja] { display: revert; }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo { display: none; }
+      #hero, section { padding-left: 1.3rem; padding-right: 1.3rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-name">
+      <span data-en>Your Name</span>
+      <span data-ja>氏名 太郎</span>
+    </span>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#about"><span data-en>About</span><span data-ja>自己紹介</span></a></li>
+        <li><a href="#research"><span data-en>Research</span><span data-ja>研究</span></a></li>
+        <li><a href="#publications"><span data-en>Publications</span><span data-ja>論文</span></a></li>
+        <li><a href="#cv"><span data-en>CV</span><span data-ja>略歴</span></a></li>
+        <li><a href="#talks"><span data-en>Talks</span><span data-ja>発表</span></a></li>
+        <li><a href="#awards"><span data-en>Awards</span><span data-ja>受賞</span></a></li>
+        <li><a href="#contact"><span data-en>Contact</span><span data-ja>連絡先</span></a></li>
+      </ul>
+      <div class="lang-toggle">
+        <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+        <button id="btn-ja" onclick="setLang('ja')">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header id="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-dept">
+        <span data-en>Theoretical Particle Physics</span>
+        <span data-ja>素粒子理論物理学</span>
+      </p>
+      <h1 class="hero-name">
+        <span data-en>Your Name</span>
+        <span data-ja>氏名　太郎</span>
+      </h1>
+      <p class="hero-title">
+        <span data-en>Assistant Professor</span>
+        <span data-ja>助教</span>
+      </p>
+      <p class="hero-affil">
+        <span data-en>Department of Physics, Kyoto University</span>
+        <span data-ja>京都大学 大学院理学研究科 物理学・宇宙物理学専攻</span>
+      </p>
+      <div class="hero-links">
+        <a class="lbtn lbtn-primary" href="#publications"><span data-en>Publications</span><span data-ja>論文リスト</span></a>
+        <a class="lbtn lbtn-outline" href="cv.pdf" target="_blank"><span data-en>Curriculum Vitae</span><span data-ja>CV (PDF)</span></a>
+        <a class="lbtn lbtn-outline" href="https://arxiv.org" target="_blank">arXiv</a>
+        <a class="lbtn lbtn-outline" href="https://inspirehep.net" target="_blank">INSPIRE-HEP</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <span data-en>Photo</span>
+      <span data-ja>写真</span>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrapper">
+    <div class="sec-head reveal"><h2><span data-en>About</span><span data-ja>自己紹介</span></h2><div class="sec-rule"></div></div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p data-en>I am a theoretical physicist working at the interface of quantum field theory, string theory, and mathematical physics. My research focuses on non-perturbative phenomena in gauge theories and their dual descriptions via holography.</p>
+        <p data-ja>私は場の量子論、弦理論、数学的物理学の境界領域を専門とする理論物理学者です。ゲージ理論の非摂動的現象とホログラフィーによる双対記述を中心に研究しています。</p>
+        <p data-en>Previously, I held postdoctoral positions at CERN (Geneva) and the Perimeter Institute for Theoretical Physics (Waterloo). I received my Ph.D. from the University of Tokyo in 2018 under the supervision of Prof. [Supervisor Name].</p>
+        <p data-ja>以前は CERN（ジュネーブ）およびペリメーター理論物理学研究所（ウォータールー）でポスドク研究員を務めました。2018年、[指導教員名] 教授のご指導のもと、東京大学にて博士号を取得しました。</p>
+        <p data-en>I am currently accepting applications from motivated graduate students and postdoctoral researchers interested in gauge theory and string theory.</p>
+        <p data-ja>現在、ゲージ理論・弦理論に関心を持つ大学院生およびポスドク研究者の応募を受け付けています。</p>
+      </div>
+      <div class="reveal">
+        <table class="info-tbl">
+          <tr><td>Email</td><td><a href="mailto:yourname@phys.kyoto-u.ac.jp">yourname@phys.<br>kyoto-u.ac.jp</a></td></tr>
+          <tr><td>Office</td><td><span data-en>Rm. 305, Science Bldg. No. 3</span><span data-ja>理学部 3 号館 305 号室</span></td></tr>
+          <tr><td>Ph.D.</td><td><span data-en>Univ. of Tokyo, 2018</span><span data-ja>東京大学，2018年</span></td></tr>
+          <tr><td>ORCID</td><td>0000-0000-0000-0000</td></tr>
+          <tr><td>Scholar</td><td><a href="https://scholar.google.com" target="_blank">Google Scholar →</a></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrapper">
+    <div class="sec-head reveal"><h2><span data-en>Research Interests</span><span data-ja>研究テーマ</span></h2><div class="sec-rule"></div></div>
+    <div class="research-list">
+      <div class="res-item reveal">
+        <span class="res-num">01</span>
+        <div>
+          <p class="res-title"><span data-en>Quantum Field Theory</span><span data-ja>場の量子論</span></p>
+          <p class="res-desc"><span data-en>Non-perturbative methods, 't Hooft anomalies, topological phases of matter, and exact results in supersymmetric gauge theories via localization.</span><span data-ja>非摂動的手法、't Hooft アノマリー、物質のトポロジカル相、局所化法による超対称ゲージ理論の厳密な結果。</span></p>
+        </div>
+      </div>
+      <div class="res-item reveal">
+        <span class="res-num">02</span>
+        <div>
+          <p class="res-title"><span data-en>String Theory &amp; Holography</span><span data-ja>弦理論とホログラフィー</span></p>
+          <p class="res-desc"><span data-en>AdS/CFT correspondence, holographic entanglement entropy, the black hole information paradox, and the emergence of spacetime from quantum entanglement.</span><span data-ja>AdS/CFT 対応、ホログラフィックエンタングルメントエントロピー、ブラックホール情報パラドックス、量子エンタングルメントからの時空の創発。</span></p>
+        </div>
+      </div>
+      <div class="res-item reveal">
+        <span class="res-num">03</span>
+        <div>
+          <p class="res-title"><span data-en>Mathematical Physics</span><span data-ja>数理物理学</span></p>
+          <p class="res-desc"><span data-en>Geometric aspects of gauge theories, moduli spaces of vacua, topological invariants, and connections between physics and algebraic geometry.</span><span data-ja>ゲージ理論の幾何学的側面、真空のモジュライ空間、トポロジカル不変量、物理と代数幾何学の関連。</span></p>
+        </div>
+      </div>
+      <div class="res-item reveal">
+        <span class="res-num">04</span>
+        <div>
+          <p class="res-title"><span data-en>Beyond the Standard Model</span><span data-ja>標準模型を超えた物理</span></p>
+          <p class="res-desc"><span data-en>Dark matter candidates from extra-dimensional scenarios, phenomenological implications of higher-dimensional theories, and connections to collider physics.</span><span data-ja>余剰次元シナリオからの暗黒物質候補、高次元理論の現象論的含意、加速器実験との接続。</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="wrapper">
+    <div class="sec-head reveal"><h2><span data-en>Selected Publications</span><span data-ja>主要論文</span></h2><div class="sec-rule"></div></div>
+    <div class="pub-list">
+      <div class="pub-item reveal">
+        <span class="pub-year">2024</span>
+        <div>
+          <p class="pub-title"><span data-en>Non-invertible Symmetries and Higher-Form Anomalies in Gauge Theories</span><span data-ja>ゲージ理論における非可逆対称性と高次形式アノマリー</span></p>
+          <p class="pub-authors"><span data-en>Your Name, A. Collaborator, B. Coauthor</span><span data-ja>氏名 太郎、A. コラボレーター、B. 共著者</span></p>
+          <p class="pub-journal">JHEP 2024, 042 &nbsp;·&nbsp; arXiv:2401.XXXXX [hep-th]</p>
+          <div class="pub-links"><a class="pub-link" href="#">arXiv</a><a class="pub-link" href="#">INSPIRE</a><a class="pub-link" href="#">Journal</a></div>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <span class="pub-year">2023</span>
+        <div>
+          <p class="pub-title"><span data-en>Holographic Entanglement Entropy and the Island Formula Beyond Two Dimensions</span><span data-ja>2次元を超えたホログラフィックエンタングルメントエントロピーとアイランド公式</span></p>
+          <p class="pub-authors"><span data-en>Your Name, C. Author</span><span data-ja>氏名 太郎、C. 著者</span></p>
+          <p class="pub-journal">Phys. Rev. D 108, 086012 &nbsp;·&nbsp; arXiv:2307.XXXXX [hep-th]</p>
+          <div class="pub-links"><a class="pub-link" href="#">arXiv</a><a class="pub-link" href="#">INSPIRE</a><a class="pub-link" href="#">Journal</a></div>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <span class="pub-year">2022</span>
+        <div>
+          <p class="pub-title"><span data-en>Exact Results in 4d <i>N</i>&thinsp;=&thinsp;2 Theories via Localization</span><span data-ja>局所化を用いた4次元 <i>N</i>&thinsp;=&thinsp;2 理論の厳密結果</span></p>
+          <p class="pub-authors"><span data-en>Your Name, D. Physicist, E. Theorist</span><span data-ja>氏名 太郎、D. 物理学者、E. 理論家</span></p>
+          <p class="pub-journal">Nucl. Phys. B 981, 115873 &nbsp;·&nbsp; arXiv:2210.XXXXX [hep-th]</p>
+          <div class="pub-links"><a class="pub-link" href="#">arXiv</a><a class="pub-link" href="#">INSPIRE</a><a class="pub-link" href="#">Journal</a></div>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <span class="pub-year">2020</span>
+        <div>
+          <p class="pub-title"><span data-en>Moduli Spaces of Vortices in Three-Dimensional Gauge Theories</span><span data-ja>3次元ゲージ理論におけるボルテックスのモジュライ空間</span></p>
+          <p class="pub-authors"><span data-en>Your Name</span><span data-ja>氏名 太郎</span></p>
+          <p class="pub-journal">Commun. Math. Phys. 378, 1423–1468 &nbsp;·&nbsp; arXiv:1912.XXXXX [hep-th]</p>
+          <div class="pub-links"><a class="pub-link" href="#">arXiv</a><a class="pub-link" href="#">INSPIRE</a><a class="pub-link" href="#">Journal</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <a class="more-link" href="https://inspirehep.net" target="_blank">
+        <span data-en>Complete list on INSPIRE-HEP →</span>
+        <span data-ja>INSPIRE-HEP で全論文を見る →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="cv">
+  <div class="wrapper">
+    <div class="sec-head reveal"><h2><span data-en>Curriculum Vitae</span><span data-ja>略歴</span></h2><div class="sec-rule"></div></div>
+    <div class="cv-list">
+      <div class="cv-item reveal">
+        <span class="cv-period"><span data-en>2022 – present</span><span data-ja>2022年 – 現在</span></span>
+        <div>
+          <p class="cv-role"><span data-en>Assistant Professor</span><span data-ja>助教</span></p>
+          <p class="cv-place"><span data-en>Department of Physics, Kyoto University, Kyoto</span><span data-ja>京都大学 大学院理学研究科 物理学・宇宙物理学専攻</span></p>
+        </div>
+      </div>
+      <div class="cv-item reveal">
+        <span class="cv-period"><span data-en>2020 – 2022</span><span data-ja>2020 – 2022年</span></span>
+        <div>
+          <p class="cv-role"><span data-en>Postdoctoral Researcher</span><span data-ja>日本学術振興会 特別研究員（PD）</span></p>
+          <p class="cv-place"><span data-en>Perimeter Institute for Theoretical Physics, Waterloo</span><span data-ja>ペリメーター理論物理学研究所（カナダ・ウォータールー）</span></p>
+        </div>
+      </div>
+      <div class="cv-item reveal">
+        <span class="cv-period"><span data-en>2018 – 2020</span><span data-ja>2018 – 2020年</span></span>
+        <div>
+          <p class="cv-role"><span data-en>CERN Fellow</span><span data-ja>CERN フェロー</span></p>
+          <p class="cv-place"><span data-en>Theory Department, CERN, Geneva</span><span data-ja>欧州原子核研究機構（CERN）理論部門（スイス・ジュネーブ）</span></p>
+        </div>
+      </div>
+      <div class="cv-item reveal">
+        <span class="cv-period"><span data-en>2015 – 2018</span><span data-ja>2015 – 2018年</span></span>
+        <div>
+          <p class="cv-role"><span data-en>Ph.D. in Physics</span><span data-ja>博士（理学）取得</span></p>
+          <p class="cv-place"><span data-en>Graduate School of Science, University of Tokyo · Supervisor: Prof. [Name]</span><span data-ja>東京大学大学院理学系研究科 · 指導教員：[指導教員名] 教授</span></p>
+        </div>
+      </div>
+      <div class="cv-item reveal">
+        <span class="cv-period"><span data-en>2013 – 2015</span><span data-ja>2013 – 2015年</span></span>
+        <div>
+          <p class="cv-role"><span data-en>M.Sc. in Physics</span><span data-ja>修士（理学）取得</span></p>
+          <p class="cv-place"><span data-en>Graduate School of Science, University of Tokyo</span><span data-ja>東京大学大学院理学系研究科</span></p>
+        </div>
+      </div>
+      <div class="cv-item reveal">
+        <span class="cv-period"><span data-en>2009 – 2013</span><span data-ja>2009 – 2013年</span></span>
+        <div>
+          <p class="cv-role"><span data-en>B.Sc. in Physics</span><span data-ja>学士（理学）取得</span></p>
+          <p class="cv-place"><span data-en>Faculty of Science, University of Tokyo</span><span data-ja>東京大学理学部物理学科</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="talks">
+  <div class="wrapper">
+    <div class="sec-head reveal"><h2><span data-en>Talks &amp; Presentations</span><span data-ja>研究発表</span></h2><div class="sec-rule"></div></div>
+    <div class="reveal">
+      <div class="talk-tabs">
+        <button class="talk-tab active" onclick="switchTab(event,'invited')"><span data-en>Invited Seminars</span><span data-ja>招待セミナー</span></button>
+        <button class="talk-tab" onclick="switchTab(event,'intl')"><span data-en>International Conferences</span><span data-ja>国際学会</span></button>
+        <button class="talk-tab" onclick="switchTab(event,'dom')"><span data-en>Domestic Conferences</span><span data-ja>国内学会</span></button>
+      </div>
+
+      <div class="talk-panel active" id="panel-invited">
+        <div class="talk-list">
+          <div class="talk-item">
+            <span class="talk-year">2025</span>
+            <div>
+              <p class="talk-title"><span data-en>Non-invertible Symmetries in Gauge Theories<span class="talk-badge">Invited</span></span><span data-ja>ゲージ理論における非可逆対称性<span class="talk-badge">招待</span></span></p>
+              <p class="talk-meta"><span data-en>CERN Theory Colloquium, Geneva</span><span data-ja>CERN 理論コロキウム，ジュネーブ</span></p>
+              <p class="talk-venue"><span data-en>January 2025</span><span data-ja>2025年1月</span></p>
+            </div>
+          </div>
+          <div class="talk-item">
+            <span class="talk-year">2024</span>
+            <div>
+              <p class="talk-title"><span data-en>Holography and the Island Formula<span class="talk-badge">Invited</span></span><span data-ja>ホログラフィーとアイランド公式<span class="talk-badge">招待</span></span></p>
+              <p class="talk-meta"><span data-en>Kavli IPMU Seminar, University of Tokyo</span><span data-ja>東京大学 カブリ数物連携宇宙研究機構 セミナー</span></p>
+              <p class="talk-venue"><span data-en>October 2024</span><span data-ja>2024年10月</span></p>
+            </div>
+          </div>
+          <div class="talk-item">
+            <span class="talk-year">2024</span>
+            <div>
+              <p class="talk-title"><span data-en>Exact Results via Localization<span class="talk-badge">Invited</span></span><span data-ja>局所化による厳密結果<span class="talk-badge">招待</span></span></p>
+              <p class="talk-meta"><span data-en>Perimeter Institute HEP Seminar, Waterloo</span><span data-ja>ペリメーター研究所 HEP セミナー，ウォータールー</span></p>
+              <p class="talk-venue"><span data-en>March 2024</span><span data-ja>2024年3月</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="talk-panel" id="panel-intl">
+        <div class="talk-list">
+          <div class="talk-item">
+            <span class="talk-year">2025</span>
+            <div>
+              <p class="talk-title"><span data-en>Higher Symmetries and Anomalies in 4d Gauge Theories</span><span data-ja>4次元ゲージ理論における高次対称性とアノマリー</span></p>
+              <p class="talk-meta"><span data-en>Strings 2025, Cambridge</span><span data-ja>Strings 2025，ケンブリッジ</span></p>
+              <p class="talk-venue"><span data-en>June 2025</span><span data-ja>2025年6月</span></p>
+            </div>
+          </div>
+          <div class="talk-item">
+            <span class="talk-year">2024</span>
+            <div>
+              <p class="talk-title"><span data-en>Island Formula Beyond Two Dimensions</span><span data-ja>2次元を超えたアイランド公式</span></p>
+              <p class="talk-meta"><span data-en>Lattice 2024, Liverpool</span><span data-ja>Lattice 2024，リバプール</span></p>
+              <p class="talk-venue"><span data-en>August 2024</span><span data-ja>2024年8月</span></p>
+            </div>
+          </div>
+          <div class="talk-item">
+            <span class="talk-year">2023</span>
+            <div>
+              <p class="talk-title"><span data-en>Localization and Exact Results in SUSY Theories</span><span data-ja>超対称理論における局所化と厳密結果</span></p>
+              <p class="talk-meta"><span data-en>ICHEP 2023, Prague</span><span data-ja>ICHEP 2023，プラハ</span></p>
+              <p class="talk-venue"><span data-en>July 2023</span><span data-ja>2023年7月</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="talk-panel" id="panel-dom">
+        <div class="talk-list">
+          <div class="talk-item">
+            <span class="talk-year">2025</span>
+            <div>
+              <p class="talk-title"><span data-en>Non-invertible Symmetries and Topological Defects</span><span data-ja>非可逆対称性とトポロジカル欠陥</span></p>
+              <p class="talk-meta"><span data-en>JPS Annual Meeting 2025, Osaka</span><span data-ja>日本物理学会 2025年次大会，大阪</span></p>
+              <p class="talk-venue"><span data-en>March 2025</span><span data-ja>2025年3月</span></p>
+            </div>
+          </div>
+          <div class="talk-item">
+            <span class="talk-year">2024</span>
+            <div>
+              <p class="talk-title"><span data-en>Holographic Entanglement and Black Holes</span><span data-ja>ホログラフィックエンタングルメントとブラックホール</span></p>
+              <p class="talk-meta"><span data-en>YITP Workshop on Quantum Gravity, Kyoto</span><span data-ja>京都大学基礎物理学研究所 量子重力ワークショップ</span></p>
+              <p class="talk-venue"><span data-en>November 2024</span><span data-ja>2024年11月</span></p>
+            </div>
+          </div>
+          <div class="talk-item">
+            <span class="talk-year">2024</span>
+            <div>
+              <p class="talk-title"><span data-en>Moduli Spaces and Geometric Phases</span><span data-ja>モジュライ空間と幾何学的位相</span></p>
+              <p class="talk-meta"><span data-en>JPS Spring Meeting 2024, Tokyo</span><span data-ja>日本物理学会 2024年春季大会，東京</span></p>
+              <p class="talk-venue"><span data-en>March 2024</span><span data-ja>2024年3月</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="awards">
+  <div class="wrapper">
+    <div class="sec-head reveal"><h2><span data-en>Awards &amp; Honours</span><span data-ja>受賞・表彰</span></h2><div class="sec-rule"></div></div>
+    <div class="award-list">
+      <div class="award-item reveal">
+        <span class="award-year">2024</span>
+        <div>
+          <p class="award-name"><span data-en>Young Scientist Award, Physical Society of Japan</span><span data-ja>日本物理学会 若手奨励賞</span></p>
+          <p class="award-org"><span data-en>Physical Society of Japan</span><span data-ja>日本物理学会</span></p>
+        </div>
+      </div>
+      <div class="award-item reveal">
+        <span class="award-year">2022</span>
+        <div>
+          <p class="award-name"><span data-en>JSPS Postdoctoral Fellowship for Research Abroad</span><span data-ja>日本学術振興会 海外特別研究員</span></p>
+          <p class="award-org"><span data-en>Japan Society for the Promotion of Science</span><span data-ja>独立行政法人 日本学術振興会</span></p>
+        </div>
+      </div>
+      <div class="award-item reveal">
+        <span class="award-year">2020</span>
+        <div>
+          <p class="award-name"><span data-en>CERN Fellowship</span><span data-ja>CERN フェローシップ</span></p>
+          <p class="award-org"><span data-en>European Organization for Nuclear Research (CERN)</span><span data-ja>欧州原子核研究機構（CERN）</span></p>
+        </div>
+      </div>
+      <div class="award-item reveal">
+        <span class="award-year">2018</span>
+        <div>
+          <p class="award-name"><span data-en>Dean's Award for Outstanding Doctoral Dissertation</span><span data-ja>研究科長賞（博士論文）</span></p>
+          <p class="award-org"><span data-en>Graduate School of Science, University of Tokyo</span><span data-ja>東京大学大学院理学系研究科</span></p>
+        </div>
+      </div>
+      <div class="award-item reveal">
+        <span class="award-year">2015</span>
+        <div>
+          <p class="award-name"><span data-en>JSPS Research Fellowship DC1</span><span data-ja>日本学術振興会 特別研究員（DC1）</span></p>
+          <p class="award-org"><span data-en>Japan Society for the Promotion of Science</span><span data-ja>独立行政法人 日本学術振興会</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrapper">
+    <div class="sec-head reveal"><h2><span data-en>Contact</span><span data-ja>連絡先</span></h2><div class="sec-rule"></div></div>
+    <div class="contact-grid">
+      <div class="contact-text reveal">
+        <p data-en>I welcome inquiries regarding research collaborations, seminar invitations, or potential graduate and postdoctoral positions. Please feel free to contact me by email.</p>
+        <p data-ja>共同研究、セミナーへのご招待、大学院・ポスドクへの応募に関するお問い合わせを歓迎します。お気軽にメールでご連絡ください。</p>
+        <p data-en>For prospective students: please review the department's admission guidelines and include a brief statement of research interests when writing.</p>
+        <p data-ja>進学を検討している方は、学科の入試要綱をご確認の上、研究関心の概要を添えてご連絡ください。</p>
+      </div>
+      <div class="reveal">
+        <table class="info-tbl">
+          <tr><td>Email</td><td><a href="mailto:yourname@phys.kyoto-u.ac.jp">yourname@phys.kyoto-u.ac.jp</a></td></tr>
+          <tr><td>Office</td><td><span data-en>Rm. 305, Science Bldg. No. 3<br>Kyoto University, 606-8502</span><span data-ja>〒606-8502 京都市左京区<br>北白川追分町 理学部 3 号館 305 号室</span></td></tr>
+          <tr><td>GitHub</td><td><a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></td></tr>
+          <tr><td>X / Twitter</td><td><a href="https://x.com/yourhandle" target="_blank">@yourhandle</a></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <p><span data-en>© 2025 Your Name. Department of Physics, Kyoto University.</span><span data-ja>© 2025 氏名 太郎・京都大学 大学院理学研究科</span></p>
+    <p><span data-en>Hosted on GitHub Pages</span><span data-ja>GitHub Pages にて公開</span></p>
+  </div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.classList.toggle('ja', lang === 'ja');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+    document.documentElement.lang = lang;
+    localStorage.setItem('lang', lang);
+  }
+  (function(){ setLang(localStorage.getItem('lang') || 'en'); })();
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
