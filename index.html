@@ -227,7 +227,7 @@
       </div>
       <div class="reveal">
         <table class="info-tbl">
-          <tr><td>Email</td><td><a href="mailto:yourname@phys.kyoto-u.ac.jp">kosei.fujiki@<br>yukawa.kyoto-u.ac.jp</a></td></tr>
+          <tr><td>Email</td><td><a href="mailto:kosei.fujiki@yukawa.kyoto-u.ac.jp">kosei.fujiki@<br>yukawa.kyoto-u.ac.jp</a></td></tr>
           <tr><td>Office</td><td><span data-en>Rm. H301, North building</span><span data-ja>基礎物理学研究所<br>北部棟H301</span></td></tr>
           <!-- <tr><td>Ph.D.</td><td><span data-en>Univ. of Tokyo, 2018</span><span data-ja>東京大学，2018年</span></td></tr> -->
           <tr><td>ORCID</td><td>https://orcid.org/0009-0003-8847-105X</td></tr>
@@ -485,6 +485,13 @@
 </footer>
 
 <script>
+  function switchTab(event, panelId) {
+  document.querySelectorAll('.talk-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.talk-panel').forEach(p => p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('panel-' + panelId).classList.add('active');
+  }
+  
   function setLang(lang) {
     document.body.classList.toggle('ja', lang === 'ja');
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
